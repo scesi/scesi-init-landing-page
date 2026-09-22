@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html class="dark" lang="es">
+<head>
+<meta charset="utf-8">
+<title>SCESI init</title>
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<meta name="description" content="Lunes 28 de septiembre · 9:50 a 13:00 · Auditorio Palacio de la Ciencia y Cultura, FCyT-UMSS. El evento donde tu camino en Informática y Sistemas empieza. Registro gratuito.">
+<meta name="theme-color" content="#15121d">
+
+<!-- Vista previa al compartir el enlace (WhatsApp, Discord, Instagram, X).
+     Al publicar hay que cambiar og:url por el dominio definitivo; sin una URL
+     absoluta varias plataformas no muestran la tarjeta. -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="SCESI init">
+<meta property="og:locale" content="es_BO">
+<meta property="og:title" content="SCESI init">
+<meta property="og:description" content="Lunes 28 de septiembre · 9:50 a 13:00 · Auditorio Palacio de la Ciencia y Cultura, FCyT-UMSS. El evento donde tu camino en Informática y Sistemas empieza. Registro gratuito.">
+<meta property="og:url" content="https://www.scesi.org/init">
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SCESI init">
+<meta name="twitter:description" content="Lunes 28 de septiembre · 9:50 a 13:00 · Auditorio Palacio de la Ciencia y Cultura, FCyT-UMSS. El evento donde tu camino en Informática y Sistemas empieza. Registro gratuito.">
+
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+
+<!-- Conexiones anticipadas con Google: el formulario, el mapa y la hoja de
+     inscritos vienen de ahí. Abrirlas al cargar la página evita esperar el
+     arranque de la conexión cuando se llega a esas secciones. -->
+<link rel="preconnect" href="https://docs.google.com">
+<link rel="preconnect" href="https://docs.google.com" crossorigin>
+<link rel="preconnect" href="https://www.google.com">
+<link rel="dns-prefetch" href="https://www.gstatic.com">
+<link rel="dns-prefetch" href="https://maps.googleapis.com">
+<link rel="dns-prefetch" href="https://maps.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&amp;family=IBM+Plex+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&amp;family=Syne:wght@400..800&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css?v=19">
+</head>
+<body class="bg-background font-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container">
+
+<header class="fixed top-0 left-0 w-full z-50 bg-surface-container-lowest/80 backdrop-blur-xl shadow-[0_1px_8px_rgba(0,0,0,0.4)]">
+  <div class="relative h-20 w-full px-[clamp(1.5rem,5vw,9rem)] flex items-center justify-between gap-spacing-md">
+    <div class="flex items-center gap-spacing-xs shrink-0">
+      <a href="#" class="flex items-center"><img src="img/logo.webp" width="155" height="36" alt="SCESI init Logo" class="h-9 w-auto object-contain"></a>
+    </div>
+    <nav class="hidden lg:flex items-center gap-spacing-xs absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
+      <a aria-current="page" class="px-spacing-xs py-spacing-3xs rounded-lg font-body-md text-body-md font-medium bg-surface-container-high text-on-surface transition-colors" href="#inicio">Inicio</a>
+      <a class="px-spacing-xs py-spacing-3xs rounded-lg font-body-md text-body-md font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" href="#speakers">Speakers</a>
+      <a class="px-spacing-xs py-spacing-3xs rounded-lg font-body-md text-body-md font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" href="#registro">Registro</a>
+      <a class="px-spacing-xs py-spacing-3xs rounded-lg font-body-md text-body-md font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" href="#ejes-tematicos">Cronograma</a>
+      <a class="px-spacing-xs py-spacing-3xs rounded-lg font-body-md text-body-md font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" href="#ubicacion">Ubicación</a>
+      <a class="px-spacing-xs py-spacing-3xs rounded-lg font-body-md text-body-md font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" href="#comunidades">Comunidades</a>
+    </nav>
+
+    <div class="flex items-center gap-spacing-2xs shrink-0">
+      <button type="button" id="menu-toggle" class="lg:hidden w-11 h-11 flex items-center justify-center rounded-full text-on-surface hover:bg-surface-container-high transition-colors"
+        aria-label="Abrir menú" aria-expanded="false" aria-controls="menu-movil">
+        <span class="material-symbols-outlined text-[26px]" id="menu-icon">menu</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Menú móvil -->
+  <div id="menu-movil" class="lg:hidden overflow-hidden max-h-0 transition-[max-height] duration-300 ease-out border-t border-[#C4B5FD]/0">
+    <nav class="flex flex-col px-[clamp(1.5rem,5vw,9rem)] py-spacing-sm gap-spacing-3xs bg-surface-container-lowest/95 backdrop-blur-xl">
+      <a class="menu-link px-spacing-xs py-spacing-xs rounded-lg font-body-lg text-body-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" href="#inicio">Inicio</a>
+      <a class="menu-link px-spacing-xs py-spacing-xs rounded-lg font-body-lg text-body-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" href="#speakers">Speakers</a>
+      <a class="menu-link px-spacing-xs py-spacing-xs rounded-lg font-body-lg text-body-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" href="#registro">Registro</a>
+      <a class="menu-link px-spacing-xs py-spacing-xs rounded-lg font-body-lg text-body-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" href="#ejes-tematicos">Cronograma</a>
+      <a class="menu-link px-spacing-xs py-spacing-xs rounded-lg font-body-lg text-body-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" href="#ubicacion">Ubicación</a>
+      <a class="menu-link px-spacing-xs py-spacing-xs rounded-lg font-body-lg text-body-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" href="#comunidades">Comunidades</a>
+    </nav>
+  </div>
+</header>
+
+<main class="w-full pt-20 bg-background">
+<div class="flex flex-col w-full text-on-surface">
+
+<!-- ==================== HERO + RED DE NODOS ==================== -->
+<section id="inicio" class="relative w-full lg:min-h-[92vh] flex items-center overflow-hidden bg-surface-container-lowest pt-spacing-lg pb-spacing-xl lg:pt-spacing-2xl lg:pb-spacing-2xl">
+
+  <div class="relative w-full px-[clamp(1.5rem,5vw,9rem)] grid grid-cols-12 items-center gap-spacing-md lg:gap-spacing-xl">
+
+    <div class="col-span-12 lg:col-span-5 flex flex-col items-start gap-spacing-sm lg:gap-spacing-md relative z-10">
+
+      <h1 class="font-display-hero text-[clamp(2.1rem,8.5vw,4.5rem)] leading-[1.06] text-on-surface font-extrabold tracking-tight max-w-[16ch] text-balance">
+        Cada estudiante es un <span class="text-primary-container">nodo.</span><br>
+        Acá nos <span class="text-tertiary-fixed underline decoration-tertiary decoration-2 sm:decoration-4 underline-offset-4 sm:underline-offset-8">conectamos.</span>
+      </h1>
+
+      <p class="font-body-md text-body-md sm:font-body-lg sm:text-body-lg text-on-surface-variant max-w-[46ch]">
+        El evento donde tu camino en Informática y Sistemas empieza. Un punto de encuentro para aprender, colaborar y potenciar tus proyectos en comunidad.
+      </p>
+
+      <div class="w-full max-w-xl flex flex-col gap-spacing-2xs p-spacing-sm bg-surface-container rounded-xl shadow-md">
+        <div class="flex items-center flex-wrap gap-x-spacing-2xs gap-y-1">
+          <span class="material-symbols-outlined text-tertiary text-[22px] shrink-0">event</span>
+          <span class="font-label-code-md text-label-code-md font-bold text-tertiary-fixed" data-evento-fecha>Lunes 28 de septiembre</span>
+          <span class="text-on-surface-variant">·</span>
+          <span class="font-label-code-md text-label-code-md font-bold text-secondary">9:50 — 13:00</span>
+        </div>
+        <div class="flex items-start gap-spacing-2xs">
+          <span class="material-symbols-outlined text-tertiary text-[22px] shrink-0">location_on</span>
+          <span class="font-body-md text-body-md text-on-surface-variant">Auditorio Palacio de la Ciencia y Cultura · FCyT, UMSS</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Mapa de nodos.
+         En móvil es una fila más del grid. Desde lg se despega del flujo y va
+         del 44% del viewport hasta el mismo margen que abre el texto a la
+         izquierda (mismo clamp que el padding del hero), cubriendo el alto
+         completo de la sección (los -4.5rem compensan su padding vertical). -->
+    <div id="graph-stage"
+         class="col-span-12 relative w-full h-[min(52vh,360px)] sm:h-[min(58vh,460px)]
+                lg:absolute lg:-top-[4.5rem] lg:-bottom-[4.5rem] lg:left-[44%] lg:right-[clamp(1.5rem,5vw,9rem)] lg:w-auto lg:h-auto">
+      <canvas id="graph-canvas" class="absolute inset-0"></canvas>
+
+      <div id="graph-tooltip" class="opacity-0 px-spacing-xs py-spacing-2xs rounded-xl bg-surface-container-high/95 backdrop-blur-sm border border-[#C4B5FD]/25 shadow-2xl">
+        <div class="font-headline-sm text-body-md font-bold text-on-surface leading-tight" data-tip-title></div>
+        <div class="font-label-code-sm text-label-code-sm text-on-surface-variant" data-tip-sub></div>
+      </div>
+    </div>
+
+    <!-- Los botones son celda propia del grid: en móvil quedan debajo del
+         mapa, y en escritorio se fuerzan a la fila 2 / columna 1 para que no
+         se acomoden al costado de los nodos. -->
+    <div class="col-span-12 lg:col-span-5 lg:col-start-1 lg:row-start-2 lg:-mt-spacing-md relative z-10 flex flex-col sm:flex-row sm:flex-wrap sm:items-center gap-spacing-2xs sm:gap-spacing-sm">
+      <a class="w-full sm:w-auto inline-flex items-center justify-center gap-spacing-2xs px-spacing-md py-spacing-xs rounded-full bg-primary text-on-primary font-title-md text-body-md font-bold shadow-[inset_0_1px_0_rgba(255,255,255,0.35),0_4px_24px_rgba(208,188,255,0.25)] hover:bg-primary-fixed-dim hover:text-on-primary-fixed transition-all" href="#registro">
+        REGISTRO GRATUITO
+      </a>
+      <a class="w-full sm:w-auto inline-flex items-center justify-center gap-spacing-2xs px-spacing-md py-spacing-xs rounded-full bg-surface-container hover:bg-surface-container-high text-secondary-fixed font-title-md text-body-md font-semibold transition-all shadow-sm" href="#ejes-tematicos">
+        <span class="material-symbols-outlined text-[18px]">schedule</span>
+        <span>Ver cronograma</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== IMPACTO ==================== -->
+<section class="relative w-full py-spacing-3xl bg-[#2B1B4D] overflow-hidden" id="por-que-scesi-init">
+  <div class="relative w-full max-w-[1240px] mx-auto px-layout-gutter flex flex-col gap-spacing-xl">
+    <div class="flex flex-col md:flex-row items-start md:items-end justify-between gap-spacing-md">
+      <div class="flex flex-col gap-spacing-3xs max-w-2xl">
+        <h2 class="font-headline-lg text-headline-lg font-bold text-on-surface leading-tight">¿Por qué SCESI init?</h2>
+        <p class="font-body-lg text-body-lg text-on-surface-variant">
+          Más de dos años conectando estudiantes con la industria y construyendo una red tecnológica sólida, abierta y colaborativa.
+        </p>
+      </div>
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-12 gap-spacing-md">
+        <div class="lg:col-span-4 p-spacing-md rounded-2xl bg-[#1E1236] border border-[#C4B5FD]/20 flex flex-col justify-between transition-all duration-300 hover:border-[#8B5CF6]/50 shadow-xl">
+        <div class="flex flex-col gap-spacing-2xs">
+          <span class="text-[48px] font-extrabold text-[#C4B5FD] tracking-tight leading-none">200+</span>
+          <h3 class="font-label-code-md text-label-code-md font-bold text-on-surface uppercase tracking-wider">ASISTENTES</h3>
+          <p class="font-body-md text-body-md text-on-surface-variant">Comunidad universitaria</p>
+        </div>
+      </div>
+      <div class="lg:col-span-4 p-spacing-md rounded-2xl bg-[#1E1236] border border-[#C4B5FD]/20 flex flex-col justify-between transition-all duration-300 hover:border-[#8B5CF6]/50 shadow-xl">
+        <div class="flex flex-col gap-spacing-2xs">
+          <span class="text-[48px] font-extrabold text-[#C4B5FD] tracking-tight leading-none">5+</span>
+          <h3 class="font-label-code-md text-label-code-md font-bold text-on-surface uppercase tracking-wider">SPEAKERS POR AÑO</h3>
+          <p class="font-body-md text-body-md text-on-surface-variant">Líderes tech, open source y profesionales.</p>
+        </div>
+      </div>
+      <div class="lg:col-span-4 p-spacing-md rounded-2xl bg-[#1E1236] border border-[#C4B5FD]/20 flex flex-col justify-between transition-all duration-300 hover:border-[#8B5CF6]/50 shadow-xl">
+        <div class="flex flex-col gap-spacing-2xs">
+          <span class="text-[48px] font-extrabold text-[#FDE047] tracking-tight leading-none">2+</span>
+          <h3 class="font-label-code-md text-label-code-md font-bold text-on-surface uppercase tracking-wider">AÑOS</h3>
+          <p class="font-body-md text-body-md text-on-surface-variant">Construyendo comunidad tecnológica y ciencia de la computación.</p>
+        </div>
+      </div>
+      <div class="sm:col-span-2 md:col-span-3 lg:col-span-12 p-spacing-md rounded-2xl bg-[#1E1236] border border-[#C4B5FD]/20 flex flex-col md:flex-row md:items-center justify-between gap-spacing-md transition-all duration-300 hover:border-[#8B5CF6]/50 shadow-xl">
+        <div class="flex items-center gap-spacing-md">
+          <div class="text-[48px] font-extrabold text-[#8B5CF6] tracking-tight leading-none shrink-0">5+</div>
+          <div class="flex flex-col gap-1">
+            <h3 class="font-label-code-md text-label-code-md font-bold text-on-surface uppercase tracking-wider">COMUNIDADES ALIADAS</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant max-w-2xl">Por confirmar.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SPEAKERS ==================== -->
+<section class="relative w-full py-spacing-3xl bg-surface-container-lowest border-t border-[#C4B5FD]/10" id="speakers">
+  <div class="relative w-full max-w-[1240px] mx-auto px-layout-gutter flex flex-col gap-spacing-2xl">
+
+    <div class="flex flex-col gap-spacing-3xs max-w-2xl">
+      <h2 class="font-headline-lg text-headline-lg font-bold text-on-surface leading-tight">Speakers</h2>
+      <p class="font-body-lg text-body-lg text-on-surface-variant">
+        Profesionales de la industria, investigación y software libre que pasaron por las mismas aulas.
+      </p>
+    </div>
+
+    <!-- Siempre 2 filas: arriba 2 tarjetas centradas, abajo 3. Cada tarjeta:
+         nombre, foto (speakers/) y perfil abreviado de alto fijo, para que
+         las cinco midan lo mismo. -->
+    <div id="speakers-grid" style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:clamp(0.5rem,2vw,1.5rem)">
+      <article style="grid-column:2/4;grid-row:1" class="group min-w-0 rounded-2xl overflow-hidden bg-surface-container-low border border-[#C4B5FD]/20 flex flex-col transition-colors duration-300 hover:border-[#8B5CF6]/50">
+        <div class="h-14 sm:h-[3.75rem] shrink-0 px-spacing-xs sm:px-spacing-sm flex items-center">
+          <h3 class="font-headline-sm text-[15px] sm:text-title-md font-bold text-on-surface leading-tight line-clamp-2">Ing. Leticia Coca</h3>
+        </div>
+
+        <div class="relative aspect-[4/5] sm:aspect-[5/4] overflow-hidden bg-gradient-to-b from-surface-container to-surface-container-lowest flex items-center justify-center">
+          <span class="material-symbols-outlined text-[64px] text-on-surface-variant/30">person</span>
+          <img src="speakers/leticia.webp" alt="Ing. Leticia Coca" loading="lazy" onerror="this.remove()"
+               class="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105">
+        </div>
+        <div class="h-[6.25rem] sm:h-[5.25rem] shrink-0 p-spacing-xs sm:p-spacing-sm flex items-start overflow-hidden">
+          <p class="font-body-md text-[10px] leading-snug sm:text-[14px] sm:leading-[1.45] text-on-surface-variant line-clamp-6 sm:line-clamp-3">Docente titular UMSS</p>
+        </div>
+      </article>
+      <article style="grid-column:4/6;grid-row:1" class="group min-w-0 rounded-2xl overflow-hidden bg-surface-container-low border border-[#C4B5FD]/20 flex flex-col transition-colors duration-300 hover:border-[#8B5CF6]/50">
+        <div class="h-14 sm:h-[3.75rem] shrink-0 px-spacing-xs sm:px-spacing-sm flex items-center">
+          <h3 class="font-headline-sm text-[15px] sm:text-title-md font-bold text-on-surface leading-tight line-clamp-2">Ing. Jorge Orellana</h3>
+        </div>
+        <div class="relative aspect-[4/5] sm:aspect-[5/4] overflow-hidden bg-gradient-to-b from-surface-container to-surface-container-lowest flex items-center justify-center">
+          <span class="material-symbols-outlined text-[64px] text-on-surface-variant/30">person</span>
+          <img src="speakers/orellana.webp" alt="Ing. Jorge Orellana, profesor titular de la UMSS" loading="lazy" onerror="this.remove()"
+               class="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105">
+        </div>
+        <div class="h-[6.25rem] sm:h-[5.25rem] shrink-0 p-spacing-xs sm:p-spacing-sm flex items-start overflow-hidden">
+          <p class="font-body-md text-[10px] leading-snug sm:text-[14px] sm:leading-[1.45] text-on-surface-variant line-clamp-6 sm:line-clamp-3">Profesor titular UMSS | Docente investigador Centro MEMI | Autor de 3 libros de Ciencias de la Computación</p>
+        </div>
+      </article>
+      <article style="grid-column:1/3;grid-row:2" class="group min-w-0 rounded-2xl overflow-hidden bg-surface-container-low border border-[#C4B5FD]/20 flex flex-col transition-colors duration-300 hover:border-[#8B5CF6]/50">
+        <div class="h-14 sm:h-[3.75rem] shrink-0 px-spacing-xs sm:px-spacing-sm flex items-center">
+          <h3 class="font-headline-sm text-[15px] sm:text-title-md font-bold text-on-surface leading-tight line-clamp-2">Ing. Jairo Maida</h3>
+        </div>
+
+        <div class="relative aspect-[4/5] sm:aspect-[5/4] overflow-hidden bg-gradient-to-b from-surface-container to-surface-container-lowest flex items-center justify-center">
+          <span class="material-symbols-outlined text-[64px] text-on-surface-variant/30">person</span>
+          <img src="speakers/jairo.webp" style="object-position:50% 100%" alt="Ing. Jairo Maida" loading="lazy" onerror="this.remove()"
+               class="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105">
+        </div>
+        <div class="h-[6.25rem] sm:h-[5.25rem] shrink-0 p-spacing-xs sm:p-spacing-sm flex items-start overflow-hidden">
+          <p class="font-body-md text-[10px] leading-snug sm:text-[14px] sm:leading-[1.45] text-on-surface-variant line-clamp-6 sm:line-clamp-3">Egresado con honores de Ing. de Sistemas UMSS | AI Researcher | Competitive Programmer | Jr. Data Scientist &amp; Data Analyst</p>
+        </div>
+      </article>
+      <article style="grid-column:3/5;grid-row:2" class="group min-w-0 rounded-2xl overflow-hidden bg-surface-container-low border border-[#C4B5FD]/20 flex flex-col transition-colors duration-300 hover:border-[#8B5CF6]/50">
+        <div class="h-14 sm:h-[3.75rem] shrink-0 px-spacing-xs sm:px-spacing-sm flex items-center">
+          <h3 class="font-headline-sm text-[15px] sm:text-title-md font-bold text-on-surface leading-tight line-clamp-2">Ing. Paul Martínez</h3>
+        </div>
+        <div class="relative aspect-[4/5] sm:aspect-[5/4] overflow-hidden bg-gradient-to-b from-surface-container to-surface-container-lowest flex items-center justify-center">
+          <span class="material-symbols-outlined text-[64px] text-on-surface-variant/30">person</span>
+          <img src="speakers/paul-martinez.webp" alt="Ing. Paul Martínez, Gerente general · Digital Services" loading="lazy" onerror="this.remove()"
+               class="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105">
+        </div>
+        <div class="h-[6.25rem] sm:h-[5.25rem] shrink-0 p-spacing-xs sm:p-spacing-sm flex items-start overflow-hidden">
+          <p class="font-body-md text-[10px] leading-snug sm:text-[14px] sm:leading-[1.45] text-on-surface-variant line-clamp-6 sm:line-clamp-3">Gerente general Digital Services | Vicepresidente 2020 Cámara Junior Tunari | Equipo administrativo Twintro</p>
+        </div>
+      </article>
+      <article style="grid-column:5/7;grid-row:2" class="group min-w-0 rounded-2xl overflow-hidden bg-surface-container-low border border-[#C4B5FD]/20 flex flex-col transition-colors duration-300 hover:border-[#8B5CF6]/50">
+        <div class="h-14 sm:h-[3.75rem] shrink-0 px-spacing-xs sm:px-spacing-sm flex items-center">
+          <h3 class="font-headline-sm text-[15px] sm:text-title-md font-bold text-on-surface leading-tight line-clamp-2">Ing. Winsor Orellana</h3>
+        </div>
+        <div class="relative aspect-[4/5] sm:aspect-[5/4] overflow-hidden bg-gradient-to-b from-surface-container to-surface-container-lowest flex items-center justify-center">
+          <span class="material-symbols-outlined text-[64px] text-on-surface-variant/30">person</span>
+          <img src="speakers/winsor.webp" alt="Ing. Winsor Orellana, ingeniero de software" loading="lazy" onerror="this.remove()"
+               class="absolute inset-0 w-full h-full object-cover object-top transition-transform duration-500 group-hover:scale-105">
+        </div>
+        <div class="h-[6.25rem] sm:h-[5.25rem] shrink-0 p-spacing-xs sm:p-spacing-sm flex items-start overflow-hidden">
+          <p class="font-body-md text-[10px] leading-snug sm:text-[14px] sm:leading-[1.45] text-on-surface-variant line-clamp-6 sm:line-clamp-3">Egresado con excelencia de Ing. de Sistemas UMSS | Ingeniero de Software Backend | Experiencia en soluciones empresariales y bases de datos</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== REGISTRO (Google Form embebido) ==================== -->
+<section class="relative w-full py-spacing-3xl bg-surface border-t border-[#C4B5FD]/10 overflow-hidden" id="registro">
+  <div class="relative w-full max-w-[1240px] mx-auto px-layout-gutter flex flex-col gap-spacing-xl">
+    <div class="flex flex-col md:flex-row items-start md:items-end justify-between gap-spacing-md">
+      <div class="flex flex-col gap-spacing-3xs max-w-2xl">
+        <h2 class="font-headline-lg text-headline-lg font-bold text-on-surface leading-tight">Asegura tu Lugar en SCESI init</h2>
+        <p class="font-body-lg text-body-lg text-on-surface-variant">
+          Completá el formulario. Tu nodo aparece en el grafo en la próxima sincronización.
+        </p>
+      </div>
+    </div>
+
+    <!-- Contenedor del iframe. La URL se define en FORM_EMBED_URL, abajo. -->
+    <div class="w-full rounded-2xl bg-surface-container-low border border-[#C4B5FD]/20 shadow-xl overflow-hidden">
+      <!-- Altura acotada: el iframe usa su propia barra de scroll, que vive en
+           el documento de Google y no la toca el ::-webkit-scrollbar de esta página. -->
+      <iframe
+        id="registro-iframe"
+        class="hidden w-full max-w-[760px] mx-auto block"
+        style="height: clamp(430px, 54vh, 600px); border: 0;"
+        title="Formulario de inscripción SCESI init"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"></iframe>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CRONOGRAMA ==================== -->
+<section class="relative w-full py-spacing-3xl bg-surface-container-lowest border-t border-[#C4B5FD]/10" id="ejes-tematicos">
+  <div class="relative w-full max-w-[1240px] mx-auto px-layout-gutter flex flex-col gap-spacing-2xl">
+    <div class="flex flex-col md:flex-row items-start md:items-end justify-between gap-spacing-md">
+      <div class="flex flex-col gap-spacing-3xs max-w-2xl">
+        <h2 class="font-headline-lg text-headline-lg font-bold text-on-surface leading-tight">Cronograma del Evento</h2>
+        <p class="font-body-lg text-body-lg text-on-surface-variant">
+          Cinco actividades para aprovechar la jornada, de 9:50 a 13:00.
+        </p>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-spacing-md">
+      <div class="p-spacing-lg rounded-xl bg-surface-container-low border border-[#C4B5FD]/20 hover:border-[#8B5CF6]/50 transition-all duration-300 shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-spacing-md">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-spacing-md">
+          <div class="flex items-center gap-spacing-xs px-spacing-sm py-spacing-xs rounded-lg bg-surface-container font-mono font-bold text-secondary text-[16px] shrink-0 sm:min-w-[188px]">
+            <span class="material-symbols-outlined text-[20px] text-primary">flag</span><span>09:50 - 10:00</span>
+          </div>
+          <div class="flex flex-col gap-1">
+            <span class="font-label-code-sm text-label-code-sm uppercase tracking-widest text-tertiary-fixed">Miembros de la SCESI</span>
+            <h3 class="font-headline-sm text-title-md font-bold text-on-surface">Inauguración del evento</h3>
+          </div>
+        </div>
+      </div>
+      <div class="p-spacing-lg rounded-xl bg-surface-container-low border border-[#C4B5FD]/20 hover:border-[#8B5CF6]/50 transition-all duration-300 shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-spacing-md">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-spacing-md">
+          <div class="flex items-center gap-spacing-xs px-spacing-sm py-spacing-xs rounded-lg bg-surface-container font-mono font-bold text-secondary text-[16px] shrink-0 sm:min-w-[188px]">
+            <span class="material-symbols-outlined text-[20px] text-primary">school</span><span>10:10 - 10:50</span>
+          </div>
+          <div class="flex flex-col gap-1">
+            <span class="font-label-code-sm text-label-code-sm uppercase tracking-widest text-tertiary-fixed">Ing. Jairo Maida · Ing. Winsor Orellana</span>
+            <h3 class="font-headline-sm text-title-md font-bold text-on-surface">Consejos para un buen rendimiento en la Universidad</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant">Descubre cómo aprovechar la universidad para construir experiencia, desarrollar habilidades y prepararte desde ahora para tu futuro profesional.</p>
+          </div>
+        </div>
+      </div>
+      <div class="p-spacing-lg rounded-xl bg-surface-container-low border border-[#C4B5FD]/20 hover:border-[#8B5CF6]/50 transition-all duration-300 shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-spacing-md">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-spacing-md">
+          <div class="flex items-center gap-spacing-xs px-spacing-sm py-spacing-xs rounded-lg bg-surface-container font-mono font-bold text-secondary text-[16px] shrink-0 sm:min-w-[188px]">
+            <span class="material-symbols-outlined text-[20px] text-primary">emoji_events</span><span>11:00 - 11:30</span>
+          </div>
+          <div class="flex flex-col gap-1">
+            <span class="font-label-code-sm text-label-code-sm uppercase tracking-widest text-tertiary-fixed">Ing. Leticia Coca</span>
+            <h3 class="font-headline-sm text-title-md font-bold text-on-surface">ICPC UMSS</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant">Conoce la programación competitiva, desarrolla tu pensamiento algorítmico y descubre cómo empezar a participar en ICPC en la universidad.</p>
+          </div>
+        </div>
+      </div>
+      <div class="p-spacing-lg rounded-xl bg-surface-container-low border border-[#C4B5FD]/20 hover:border-[#8B5CF6]/50 transition-all duration-300 shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-spacing-md">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-spacing-md">
+          <div class="flex items-center gap-spacing-xs px-spacing-sm py-spacing-xs rounded-lg bg-surface-container font-mono font-bold text-secondary text-[16px] shrink-0 sm:min-w-[188px]">
+            <span class="material-symbols-outlined text-[20px] text-primary">handshake</span><span>11:40 - 12:20</span>
+          </div>
+          <div class="flex flex-col gap-1">
+            <span class="font-label-code-sm text-label-code-sm uppercase tracking-widest text-tertiary-fixed">Ing. Paul Martínez</span>
+            <h3 class="font-headline-sm text-title-md font-bold text-on-surface">Networking: Construye tu Red Profesional</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant">Aprende a crear relaciones profesionales, conectar con estudiantes y expertos, y aprovechar comunidades y eventos para abrir nuevas oportunidades.</p>
+          </div>
+        </div>
+      </div>
+      <div class="p-spacing-lg rounded-xl bg-surface-container-low border border-[#C4B5FD]/20 hover:border-[#8B5CF6]/50 transition-all duration-300 shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-spacing-md">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center gap-spacing-md">
+          <div class="flex items-center gap-spacing-xs px-spacing-sm py-spacing-xs rounded-lg bg-surface-container font-mono font-bold text-secondary text-[16px] shrink-0 sm:min-w-[188px]">
+            <span class="material-symbols-outlined text-[20px] text-primary">shield</span><span>12:30 - 13:00</span>
+          </div>
+          <div class="flex flex-col gap-1">
+            <span class="font-label-code-sm text-label-code-sm uppercase tracking-widest text-tertiary-fixed">Ing. Jorge Orellana</span>
+            <h3 class="font-headline-sm text-title-md font-bold text-on-surface">CTF UMSS</h3>
+            <p class="font-body-md text-body-md text-on-surface-variant">Adéntrate en el mundo de la ciberseguridad mediante retos prácticos y descubre cómo desarrollar habilidades resolviendo desafíos tipo Capture The Flag.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== CÓMO LLEGAR ==================== -->
+<section class="relative w-full py-spacing-3xl bg-surface-container-lowest border-t border-[#C4B5FD]/10" id="ubicacion">
+  <div class="relative w-full max-w-[1240px] mx-auto px-layout-gutter flex flex-col gap-spacing-xl">
+
+    <div class="flex flex-col gap-spacing-3xs max-w-2xl">
+      <h2 class="font-headline-lg text-headline-lg font-bold text-on-surface leading-tight">Cómo llegar</h2>
+      <p class="font-body-lg text-body-lg text-on-surface-variant">
+        Auditorio del Palacio de la Ciencia y Cultura, dentro de la Facultad de Ciencias y Tecnología de la UMSS.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-spacing-md">
+      <div class="lg:col-span-1 flex flex-col gap-spacing-md">
+        <div class="p-spacing-lg rounded-2xl bg-surface-container-low border border-[#C4B5FD]/20 flex flex-col gap-spacing-sm">
+          <div class="flex items-start gap-spacing-2xs">
+            <span class="material-symbols-outlined text-tertiary text-[22px] shrink-0">location_on</span>
+            <div class="flex flex-col gap-1">
+              <span class="font-headline-sm text-title-md font-bold text-on-surface">Palacio de la Ciencia y Cultura</span>
+              <span class="font-body-md text-body-md text-on-surface-variant">FCyT · Campus central UMSS, Cochabamba</span>
+            </div>
+          </div>
+          <div class="flex items-start gap-spacing-2xs">
+            <span class="material-symbols-outlined text-tertiary text-[22px] shrink-0">event</span>
+            <div class="flex flex-col gap-1">
+              <span class="font-label-code-md text-label-code-md font-bold text-tertiary-fixed" data-evento-fecha>Lunes 28 de septiembre</span>
+              <span class="font-body-md text-body-md text-on-surface-variant">9:50 — 13:00 · Entrada libre</span>
+            </div>
+          </div>
+
+          <a href="https://maps.app.goo.gl/iEq9wZNWQoo6TT176" target="_blank" rel="noopener noreferrer"
+             class="mt-spacing-2xs inline-flex items-center justify-center gap-spacing-2xs px-spacing-md py-spacing-xs rounded-full bg-surface-container hover:bg-surface-container-high text-secondary-fixed font-title-md text-body-md font-bold transition-colors">
+            <span class="material-symbols-outlined text-[18px]">directions</span>
+            <span>Abrir en Google Maps</span>
+          </a>
+        </div>
+      </div>
+
+      <!-- Mapa. Se descarga recién al acercarse, igual que el formulario. -->
+      <div class="lg:col-span-2 rounded-2xl overflow-hidden border border-[#C4B5FD]/20 shadow-xl bg-surface-container-low">
+        <iframe
+          id="mapa-iframe"
+          class="hidden w-full block"
+          style="height: clamp(300px, 42vh, 460px); border: 0;"
+          title="Mapa del Auditorio Palacio de la Ciencia y Cultura, FCyT UMSS"
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen></iframe>
+        <div id="mapa-placeholder" class="w-full flex items-center justify-center" style="height: clamp(300px, 42vh, 460px);">
+          <span class="material-symbols-outlined text-[36px] text-on-surface-variant/40">map</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== COMUNIDADES ==================== -->
+<section class="relative w-full py-spacing-3xl bg-surface border-t border-[#C4B5FD]/10 overflow-hidden" id="comunidades">
+  <div class="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_20%_25%,rgba(139,92,246,0.08)_0%,transparent_50%),radial-gradient(circle_at_80%_70%,rgba(226,198,45,0.04)_0%,transparent_50%)]"></div>
+  <div class="relative w-full max-w-[1240px] mx-auto px-layout-gutter flex flex-col gap-spacing-2xl">
+    <div class="flex flex-col gap-spacing-3xs max-w-2xl">
+      <h2 class="font-headline-lg text-headline-lg font-bold text-on-surface leading-tight">Comunidades Aliadas</h2>
+      <p class="font-body-lg text-body-lg text-on-surface-variant">Iniciativas, colectivos y empresas tecnológicas que impulsan y acompañan el crecimiento de los estudiantes en Informática y Sistemas.</p>
+    </div>
+  </div>
+
+  <!-- Cinta infinita. El JS clona las tarjetas hasta cubrir el doble del ancho
+       visible y ajusta la duración para que la velocidad sea siempre la misma,
+       haya dos aliados o veinte. -->
+  <div class="marquee relative w-full mt-spacing-2xl" id="comunidades-marquee">
+    <div class="marquee-track flex gap-spacing-md" id="comunidades-track">
+      <!-- Para sumar una comunidad, copiar esta tarjeta sin el comentario.
+           Con al menos una, la cinta aparece y gira sola.
+      <div class="marquee-card p-spacing-lg rounded-2xl bg-[#1E1236] border border-[#C4B5FD]/20 flex flex-col gap-spacing-xs">
+        <img src="img/NOMBRE.webp" alt="NOMBRE" class="h-12 max-w-[180px] object-contain self-start">
+        <h3 class="font-headline-sm text-title-md font-bold text-on-surface">NOMBRE</h3>
+        <p class="font-body-md text-body-md text-on-surface-variant">Descripción breve.</p>
+      </div>
+      -->
+    </div>
+  </div>
+
+  <!-- Estado vacío: se muestra sólo mientras no haya tarjetas en la cinta. -->
+  <div id="comunidades-vacio" class="hidden relative w-full max-w-[1240px] mx-auto px-layout-gutter mt-spacing-xl">
+    <div class="p-spacing-lg rounded-2xl bg-surface-container-low border border-dashed border-[#C4B5FD]/25 flex items-center gap-spacing-sm text-on-surface-variant">
+      <span class="material-symbols-outlined text-[28px] text-tertiary-fixed">hub</span>
+      <span class="font-body-md text-body-md">Comunidades por confirmar.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SPONSORS ==================== -->
+<section class="relative w-full py-spacing-3xl bg-surface-container-lowest border-t border-[#C4B5FD]/10 overflow-hidden" id="sponsors">
+  <div class="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_80%_30%,rgba(226,198,45,0.05)_0%,transparent_50%),radial-gradient(circle_at_20%_75%,rgba(139,92,246,0.07)_0%,transparent_50%)]"></div>
+  <div class="relative w-full max-w-[1240px] mx-auto px-layout-gutter flex flex-col gap-spacing-xl">
+    <div class="flex flex-col gap-spacing-3xs max-w-2xl">
+      <h2 class="font-headline-lg text-headline-lg font-bold text-on-surface leading-tight">Sponsors</h2>
+      <p class="font-body-lg text-body-lg text-on-surface-variant">Quienes hacen posible SCESI init.</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-spacing-md">
+      <div class="p-spacing-lg rounded-2xl bg-[#1E1236] border border-[#C4B5FD]/20 flex flex-col justify-between transition-all duration-300 hover:border-[#8B5CF6]/50 shadow-xl group">
+      <div class="flex flex-col items-start">
+        <div class="h-16 w-full flex items-center mb-4"><img src="img/twintro.webp" alt="Twintro" class="h-12 max-w-[180px] object-contain"></div>
+        <span class="px-spacing-xs py-spacing-3xs rounded-full bg-surface-container font-label-code-sm text-label-code-sm text-[#C4B5FD] font-semibold mb-3">Sponsor</span>
+        <h3 class="font-headline-sm text-title-md font-bold text-on-surface mb-2">Twintro</h3>
+        <p class="font-body-md text-body-md text-on-surface-variant">Convierte tu CV en una identidad digital con agentes de IA: entiende tu contexto y tus objetivos, y te acerca las conexiones que de verdad valen tu tiempo.</p>
+        <div class="flex flex-wrap items-center gap-spacing-2xs mt-spacing-xs">
+          <a href="https://twintro.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-spacing-xs py-spacing-3xs rounded-full bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors">
+            <span class="material-symbols-outlined text-[18px]">language</span>
+            <span class="font-label-code-sm text-label-code-sm">twintro.com</span>
+          </a>
+        </div>
+      </div>
+      </div>
+      <div class="p-spacing-lg rounded-2xl bg-[#1E1236] border border-[#C4B5FD]/20 flex flex-col justify-between transition-all duration-300 hover:border-[#8B5CF6]/50 shadow-xl group">
+      <div class="flex flex-col items-start">
+        <div class="h-16 w-full flex items-center mb-4"><img src="img/digital-services.webp" alt="Digital Services" class="h-16 w-auto max-w-[180px] object-contain"></div>
+        <span class="px-spacing-xs py-spacing-3xs rounded-full bg-surface-container font-label-code-sm text-label-code-sm text-primary font-semibold mb-3">Sponsor</span>
+        <h3 class="font-headline-sm text-title-md font-bold text-on-surface mb-2">Digital Services</h3>
+        <p class="font-body-md text-body-md text-on-surface-variant">Academia que asesora y guía en cursos de capacitación tecnológica, siempre entusiasmada por ayudar y formar nuevos estudiantes en la tecnología.</p>
+        <div class="flex flex-wrap items-center gap-spacing-2xs mt-spacing-xs">
+          <a href="https://www.instagram.com/digital_services_tech/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-spacing-xs py-spacing-3xs rounded-full bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" title="Instagram"><svg viewBox="0 0 24 24" class="w-[18px] h-[18px] fill-current shrink-0" aria-hidden="true"><path d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"/></svg><span class="sr-only">Instagram</span></a>
+          <a href="https://www.facebook.com/p/Digital-Services-100084432777557/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 px-spacing-xs py-spacing-3xs rounded-full bg-surface-container text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" title="Facebook"><svg viewBox="0 0 24 24" class="w-[18px] h-[18px] fill-current shrink-0" aria-hidden="true"><path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036 26.805 26.805 0 0 0-.733-.009c-.707 0-1.259.096-1.675.309a1.686 1.686 0 0 0-.679.622c-.258.42-.374.995-.374 1.752v1.297h3.919l-.386 2.103-.287 1.564h-3.246v8.245C19.396 23.238 24 18.179 24 12.044c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.628 3.874 10.35 9.101 11.647Z"/></svg><span class="sr-only">Facebook</span></a>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</div>
+</main>
+
+<footer class="w-full bg-[#050505] border-t border-white/10 relative py-16 px-layout-gutter z-50">
+  <div class="max-w-[1280px] mx-auto flex flex-col md:flex-row items-center justify-between gap-spacing-xl flex-wrap">
+    <div class="flex items-center gap-spacing-md">
+      <div class="w-12 h-12 rounded-xl bg-white p-1.5 flex items-center justify-center shrink-0 shadow-md"><img src="img/scesi.webp" alt="SCESI UMSS" class="w-full h-full object-contain"></div>
+      <div class="flex flex-col gap-1">
+        <span class="font-headline-sm text-body-lg font-bold text-on-surface tracking-tight leading-none">SCESI · UMSS</span>
+        <span class="font-body-md text-sm text-on-surface-variant leading-snug">Sociedad Científica de Estudiantes de Sistemas e Informática</span>
+      </div>
+    </div>
+    <div class="flex items-center gap-spacing-xl font-label-code-md text-label-code-md text-on-surface-variant">
+      <a href="https://www.scesi.org" target="_blank" rel="noopener noreferrer" class="hover:text-primary tracking-wider uppercase transition-colors duration-200">Web</a>
+      <a href="https://discord.gg/scesi" target="_blank" rel="noopener noreferrer" class="hover:text-primary tracking-wider uppercase transition-colors duration-200">Discord</a>
+      <a href="https://github.com/scesi" target="_blank" rel="noopener noreferrer" class="hover:text-primary tracking-wider uppercase transition-colors duration-200">GitHub</a>
+    </div>
+    <div class="font-label-code-sm text-xs text-on-surface-variant/70 text-center md:text-right">
+      <p class="leading-relaxed">© 2026 SCESI · Facultad de Ciencias y Tecnología · UMSS. Todos los derechos reservados.</p>
+    </div>
+  </div>
+</footer>
+
+<!-- ============ CONFIGURACIÓN DEL SITIO ============ -->
+<script>
+  // 1) Fecha del evento. Se escribe en toda la página desde acá.
+  var EVENTO_FECHA = "Lunes 28 de septiembre";
+
+  // 2) Origen de los inscritos: la hoja de respuestas del Form, leída como CSV.
+  //    `tq=select B,C,D,E,F` deja fuera la marca temporal y cualquier columna
+  //    que se agregue después: sólo sale lo que el mapa necesita.
+  //    La hoja tiene que estar compartida como "cualquiera con el enlace: lector".
+  window.SCESI_GRAPH_DATA_URL =
+    "https://docs.google.com/spreadsheets/d/1QTV6ayjy93dGsoFsmbHc_7SS01jg4CzwR-IygNyXwqo/gviz/tq?tqx=out:csv&tq=select%20B,C,D,E,F";
+
+  // 3) Formulario: URL de inserción del Google Form
+  //    (Form → Enviar → <> → copiar el src del iframe).
+  var FORM_EMBED_URL = "https://docs.google.com/forms/d/e/1FAIpQLSe796Zp9kiHEbaBEzzCxi8NtSwMVuNHhNkxihHaGyYNYXj-pw/viewform?embedded=true";
+</script>
+
+<script src="site.js?v=1" defer></script>
+<script src="graph.js?v=4" defer></script>
+</body>
+</html>
