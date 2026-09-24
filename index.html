@@ -14,12 +14,12 @@
 <meta property="og:site_name" content="SCESI init">
 <meta property="og:locale" content="es_BO">
 <meta property="og:title" content="SCESI init">
-<meta property="og:description" content="Lunes 28 de septiembre · 9:50 a 13:00 · Auditorio Palacio de la Ciencia y Cultura, FCyT-UMSS. El evento donde tu camino en Informática y Sistemas empieza. Registro gratuito.">
+<meta property="og:description" content="Lunes 28 de septiembre · 9:30 a 13:00 · Auditorio Palacio de la Ciencia y Cultura, FCyT-UMSS. El evento donde tu camino en Informática y Sistemas empieza. Registro gratuito.">
 <meta property="og:url" content="https://www.scesi.org/init">
 
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="SCESI init">
-<meta name="twitter:description" content="Lunes 28 de septiembre · 9:50 a 13:00 · Auditorio Palacio de la Ciencia y Cultura, FCyT-UMSS. El evento donde tu camino en Informática y Sistemas empieza. Registro gratuito.">
+<meta name="twitter:description" content="Lunes 28 de septiembre · 9:30 a 13:00 · Auditorio Palacio de la Ciencia y Cultura, FCyT-UMSS. El evento donde tu camino en Informática y Sistemas empieza. Registro gratuito.">
 
 <link rel="icon" href="favicon.svg" type="image/svg+xml">
 <link href="https://fonts.googleapis.com" rel="preconnect">
@@ -83,14 +83,14 @@
 
   <div class="relative w-full px-[clamp(1.5rem,5vw,9rem)] grid grid-cols-12 items-center gap-spacing-md lg:gap-spacing-xl">
 
-    <div class="col-span-12 lg:col-span-5 flex flex-col items-start gap-spacing-sm lg:gap-spacing-md relative z-10">
+    <div class="col-span-12 lg:col-span-5 w-full flex flex-col items-start gap-spacing-sm lg:gap-spacing-md relative z-10">
 
-      <h1 class="font-display-hero text-[clamp(2.1rem,8.5vw,4.5rem)] leading-[1.06] text-on-surface font-extrabold tracking-tight max-w-[16ch] text-balance">
+      <h1 class="hero-title font-display-hero text-[clamp(2.1rem,8.5vw,4.5rem)] leading-[1.06] text-on-surface font-extrabold tracking-tight w-full max-w-[16ch] text-balance">
         Cada estudiante es un <span class="text-primary-container">nodo.</span><br>
         Acá nos <span class="text-tertiary-fixed underline decoration-tertiary decoration-2 sm:decoration-4 underline-offset-4 sm:underline-offset-8">conectamos.</span>
       </h1>
 
-      <p class="font-body-md text-body-md sm:font-body-lg sm:text-body-lg text-on-surface-variant max-w-[46ch]">
+      <p class="font-body-md text-body-md sm:font-body-lg sm:text-body-lg text-on-surface-variant w-full max-w-[46ch]">
         El evento donde tu camino en Informática y Sistemas empieza. Un punto de encuentro para aprender, colaborar y potenciar tus proyectos en comunidad.
       </p>
 
@@ -99,7 +99,7 @@
           <span class="material-symbols-outlined text-tertiary text-[22px] shrink-0">event</span>
           <span class="font-label-code-md text-label-code-md font-bold text-tertiary-fixed" data-evento-fecha>Lunes 28 de septiembre</span>
           <span class="text-on-surface-variant">·</span>
-          <span class="font-label-code-md text-label-code-md font-bold text-secondary">9:50 — 13:00</span>
+          <span class="font-label-code-md text-label-code-md font-bold text-secondary">9:30 — 13:00</span>
         </div>
         <div class="flex items-start gap-spacing-2xs">
           <span class="material-symbols-outlined text-tertiary text-[22px] shrink-0">location_on</span>
@@ -113,7 +113,11 @@
          En móvil es una fila más del grid. Desde lg se despega del flujo y va
          del 44% del viewport hasta el mismo margen que abre el texto a la
          izquierda (mismo clamp que el padding del hero), cubriendo el alto
-         completo de la sección (los -4.5rem compensan su padding vertical). -->
+         completo de la sección (los -4.5rem compensan su padding vertical).
+         El borde derecho se corre 120px de más (bleed): así el aura del nodo
+         central tiene dónde apagarse sin chocar contra el margen, y el nodo
+         igual llega hasta la posición del margen normal (graph.js ya reserva
+         BORDE+halo desde el borde real del canvas). -->
     <div id="graph-stage"
          class="col-span-12 relative w-full h-[min(52vh,360px)] sm:h-[min(58vh,460px)]
                 lg:absolute lg:-top-[4.5rem] lg:-bottom-[4.5rem] lg:left-[44%] lg:right-[clamp(1.5rem,5vw,9rem)] lg:w-auto lg:h-auto">
@@ -307,7 +311,7 @@
       <div class="flex flex-col gap-spacing-3xs max-w-2xl">
         <h2 class="font-headline-lg text-headline-lg font-bold text-on-surface leading-tight">Cronograma del Evento</h2>
         <p class="font-body-lg text-body-lg text-on-surface-variant">
-          Cinco actividades para aprovechar la jornada, de 9:50 a 13:00.
+          Cinco actividades para aprovechar la jornada, de 9:30 a 13:00.
         </p>
       </div>
     </div>
@@ -319,7 +323,7 @@
       <div class="p-spacing-lg rounded-xl bg-surface-container-low border border-[#C4B5FD]/20 hover:border-[#8B5CF6]/50 transition-all duration-300 shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-spacing-md blur-[3px] select-none pointer-events-none">
         <div class="flex flex-col sm:flex-row items-start sm:items-center gap-spacing-md">
           <div class="flex items-center gap-spacing-xs px-spacing-sm py-spacing-xs rounded-lg bg-surface-container font-mono font-bold text-secondary text-[16px] shrink-0 sm:min-w-[188px]">
-            <span class="material-symbols-outlined text-[20px] text-primary">flag</span><span>09:50 - 10:00</span>
+            <span class="material-symbols-outlined text-[20px] text-primary">flag</span><span>09:30 - 10:00</span>
           </div>
           <div class="flex flex-col gap-1">
             <span class="font-label-code-sm text-label-code-sm uppercase tracking-widest text-tertiary-fixed">Miembros de la SCESI</span>
@@ -404,7 +408,7 @@
             <span class="material-symbols-outlined text-tertiary text-[22px] shrink-0">event</span>
             <div class="flex flex-col gap-1">
               <span class="font-label-code-md text-label-code-md font-bold text-tertiary-fixed" data-evento-fecha>Lunes 28 de septiembre</span>
-              <span class="font-body-md text-body-md text-on-surface-variant">9:50 — 13:00 · Entrada libre</span>
+              <span class="font-body-md text-body-md text-on-surface-variant">9:30 — 13:00 · Entrada libre</span>
             </div>
           </div>
 
