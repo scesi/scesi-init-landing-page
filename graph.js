@@ -822,11 +822,14 @@
 
       var dim = enfoque ? 1 : 0.16;
 
-      // halo: sprite estampado, sin degradado nuevo
-      var haloR = r * (n === hovered ? 3.6 : (n.group === 'persona' ? 2.1 : 2.8));
-      ctx.globalAlpha = 0.42 * dim * ease * entrada;
-      ctx.drawImage(spriteHalo(n.color), p.x - haloR, p.y - haloR, haloR * 2, haloR * 2);
-      ctx.globalAlpha = 1;
+      // El halo queda reservado para el centro y para el nodo apuntado: si
+      // todos brillan, el brillo deja de señalar nada.
+      if (n.group === 'core' || n === hovered) {
+        var haloR = r * (n === hovered ? 3.2 : 3);
+        ctx.globalAlpha = (n === hovered ? 0.34 : 0.45) * dim * ease * entrada;
+        ctx.drawImage(spriteHalo(n.color), p.x - haloR, p.y - haloR, haloR * 2, haloR * 2);
+        ctx.globalAlpha = 1;
+      }
 
       if (n === hovered) {
         ctx.beginPath();
