@@ -14,7 +14,7 @@
 
   // ---------- Configuración ----------------------------------
   var DATA_URL = window.SCESI_GRAPH_DATA_URL || '';
-  var REFRESH_MS = 60000;
+  var REFRESH_MS = 10000;
   var MAX_PEOPLE = 400;   // techo absoluto; por encima se muestran los últimos
 
   /**
@@ -93,6 +93,8 @@
   var view = { k: 1, x: 0, y: 0 };
   var vistaLista = false;   // ya se encuadró al menos una vez
   var alpha = 1, fitPending = true;
+  var primerCarga = true;   // la carga inicial no cuenta como "nace": nadie destella al abrir la página
+  var NACE_MS = 900;   // cuánto dura el estallido de un nodo recién llegado
   var cajaLibre = null;        // caja del grafo antes de recortarlo contra el panel
   var ultimosRegistros = null; // últimos datos leídos, para rearmar al redimensionar
   var topeUsado = 0;
@@ -229,7 +231,9 @@
       n.vx = 0; n.vy = 0; n.deg = 0;
       n.phase = old ? old.phase : Math.random() * Math.PI * 2;
       n.drift = old ? old.drift : 0.4 + Math.random() * 0.8;
-      n.born = old ? old.born : performance.now();
+      // En la primera carga el nodo ya "nació" hace rato: entra completo, sin
+      // estallido. Sólo brilla el que se suma en una carga posterior.
+      n.born = old ? old.born : (primerCarga ? -1e6 : performance.now());
       nextNodes.push(n);
       map[n.id] = n;
       return n;
@@ -378,6 +382,7 @@
 
     nodes = nextNodes; links = clean; byId = map; adjacency = adj;
     alpha = 1;
+    primerCarga = false;
 
     ajustarGravedad();   // el estiramiento depende de cuántos nodos hay
 
@@ -724,6 +729,47 @@
     return 'rgba(' + ((v >> 16) & 255) + ',' + ((v >> 8) & 255) + ',' + (v & 255) + ',' + a + ')';
   }
 
+  /**
+   * Nacimiento de un nodo nuevo: un resplandor que se retrae hacia el punto
+   * más ocho puntas que se achican, como una estrella condensándose. `t` va
+   * de 0 (recién llegado) a 1 (ya es un nodo más); `rFinal` es su radio en
+   * pantalla ya en reposo.
+   */
+  function drawEstallido(p, n, rFinal, t, dim) {
+    var apagar = Math.pow(1 - t, 1.4);   // baja rápido al principio, se demora en desaparecer
+    if (apagar <= 0.01) return;
+
+    // Resplandor: arranca grande y blanco-caliente, se retrae y tiñe del
+    // color del nodo a medida que se apaga.
+    var bloomR = rFinal * (1 + (1 - t) * 5.5);
+    ctx.globalAlpha = apagar * 0.85 * dim;
+    ctx.drawImage(spriteHalo(t < 0.4 ? '#ffffff' : n.color), p.x - bloomR, p.y - bloomR, bloomR * 2, bloomR * 2);
+
+    // Puntas: ocho rayos que se acortan hacia el centro, con las cuatro
+    // "cardinales" más largas que las diagonales, como el brillo de una
+    // estrella.
+    var puntas = 8, giro = t * 0.5;
+    var largoBase = rFinal * (1 + (1 - t) * 9);
+    ctx.fillStyle = t < 0.3 ? '#fff8e0' : n.color;
+    ctx.globalAlpha = apagar * 0.9 * dim;
+
+    for (var i = 0; i < puntas; i++) {
+      var ang = giro + i * (Math.PI / 4);
+      var largo = largoBase * (i % 2 === 0 ? 1 : 0.55);
+      var ancho = rFinal * 0.16 * apagar + 0.4;
+      var dx = Math.cos(ang), dy = Math.sin(ang);
+      var px = -dy * ancho, py = dx * ancho;
+
+      ctx.beginPath();
+      ctx.moveTo(p.x + px, p.y + py);
+      ctx.lineTo(p.x + dx * largo, p.y + dy * largo);
+      ctx.lineTo(p.x - px, p.y - py);
+      ctx.closePath();
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
   // ---------- Render -----------------------------------------
   var nacido = 0;
   function draw(now) {
@@ -813,7 +859,7 @@
       var p = toScreen(n);
       var enfoque = !hovered || n === hovered || !!relacion[n.id] || isNeighbor(n.id);
 
-      var edad = Math.min(1, (now - n.born) / 800);
+      var edad = Math.min(1, (now - n.born) / NACE_MS);
       var ease = 1 - Math.pow(1 - edad, 3);
       var pulso = n.group === 'core' ? 1 + Math.sin(now / 1000) * 0.05 : 1;
       var r = Math.max(n.r * view.k * ease * pulso, ease > 0.9 ? 2.4 : 0);
@@ -830,6 +876,12 @@
         ctx.drawImage(spriteHalo(n.color), p.x - haloR, p.y - haloR, haloR * 2, haloR * 2);
         ctx.globalAlpha = 1;
       }
+
+      // Nacimiento: al recién llegado (no a los que ya estaban al cargar la
+      // página) se lo marca con un estallido tipo estrella — un resplandor
+      // que se retrae y ocho puntas que se achican hacia el nodo, mientras
+      // el cuerpo (arriba, `ease`) crece de 0 al tamaño final.
+      if (edad < 1) drawEstallido(p, n, n.r * view.k, edad, dim * entrada);
 
       if (n === hovered) {
         ctx.beginPath();
@@ -1042,6 +1094,10 @@
   // ---------- Datos ------------------------------------------
   function load() {
     if (!DATA_URL) { buildGraph([]); return; }
+    // Pestaña de fondo: nadie mira, no vale la pena gastar cuota del endpoint.
+    // Con muchos visitantes a la vez (link compartido) esto corta la mayoría
+    // del tráfico, porque el celular manda la app a segundo plano seguido.
+    if (document.hidden) return;
 
     fetch(DATA_URL, { cache: 'no-store' })
       .then(function (res) {
@@ -1071,4 +1127,8 @@
   load();
   requestAnimationFrame(frame);
   if (DATA_URL && REFRESH_MS > 0) setInterval(load, REFRESH_MS);
+  // Al volver a la pestaña no se espera hasta el próximo poll: se refresca ya.
+  document.addEventListener('visibilitychange', function () {
+    if (!document.hidden) load();
+  });
 })();
