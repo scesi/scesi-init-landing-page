@@ -91,6 +91,11 @@
   var nodes = [], links = [], byId = Object.create(null), adjacency = Object.create(null);
   var W = 0, H = 0;
   var view = { k: 1, x: 0, y: 0 };
+  // Zoom del usuario (pinch, botones, ctrl+rueda), aplicado encima del
+  // encuadre automático: `view` sigue acomodando el grafo al panel y `zoom`
+  // es la lupa que el visitante mueve sobre esa imagen.
+  var zoom = { k: 1, x: 0, y: 0 };
+  var ZOOM_MAX = 5;
   var vistaLista = false;   // ya se encuadró al menos una vez
   var alpha = 1, fitPending = true;
   var primerCarga = true;   // la carga inicial no cuenta como "nace": nadie destella al abrir la página
@@ -219,6 +224,10 @@
   function buildGraph(records) {
     ultimosRegistros = records;
     topeUsado = topeVisible();
+    // Áreas y comunidades salen de TODOS los inscritos: son pocas y no pesan
+    // en el dibujo, recortarlas junto con la gente dejaría comunidades sin
+    // nodo solo porque quien la declaró no está entre los últimos N visibles.
+    var todosLosRegistros = records;
     if (records.length > topeUsado) records = records.slice(-topeUsado);
 
     var prev = byId;
@@ -256,7 +265,7 @@
     var vistasArea = Object.create(null);
     var vistasCom = Object.create(null);
 
-    records.forEach(function (rec) {
+    todosLosRegistros.forEach(function (rec) {
       if (rec.area) {
         var k = plano(rec.area);
         if (!vistasArea[k]) {
@@ -478,7 +487,7 @@
     var pw = null, pr = 0;
     if (pointer.inside && POINTER_FORCE > 0) {
       pw = toWorld(pointer.x, pointer.y);
-      pr = POINTER_RADIUS / view.k;
+      pr = POINTER_RADIUS / (view.k * zoom.k);
     }
 
     // El nodo más cercano al cursor es el que estás por agarrar: queda fuera
@@ -510,7 +519,7 @@
       if (pw && n !== hovered && n !== candidato) {
         var px = n.x - pw.x, py = n.y - pw.y;
         var pd = Math.sqrt(px * px + py * py);
-        var zonaMuerta = DEAD_ZONE / view.k;
+        var zonaMuerta = DEAD_ZONE / (view.k * zoom.k);
         if (pd < pr && pd > zonaMuerta) {
           var falloff = (pd - zonaMuerta) / (pr - zonaMuerta);
           falloff = 1 - falloff;
@@ -571,7 +580,7 @@
 
     for (var i = 0; i < nodes.length; i++) {
       var n = nodes[i];
-      var p = toScreen(n);
+      var p = baseScreen(n);
 
       var r = Math.min(radioVisual(n) + BORDE, W / 2, H / 2);
       // Abajo se reserva además el alto de la etiqueta, que va bajo el nodo.
@@ -581,8 +590,8 @@
       var cy = Math.max(r, Math.min(H - abajo, p.y));
       if (cx === p.x && cy === p.y) continue;
 
-      var w = toWorld(cx, cy);
-      n.x = w.x; n.y = w.y;
+      n.x = (cx - view.x) / view.k;
+      n.y = (cy - view.y) / view.k;
 
       // Se mata la velocidad del eje topado y se devuelve un empujón hacia
       // adentro: sin esto el nodo se queda pegado a la pared indefinidamente.
@@ -655,8 +664,44 @@
     view.y = H / 2 - ((b.minY + b.maxY) / 2) * view.k;
   }
 
-  function toScreen(n) { return { x: n.x * view.k + view.x, y: n.y * view.k + view.y }; }
-  function toWorld(px, py) { return { x: (px - view.x) / view.k, y: (py - view.y) / view.k }; }
+  /** Posición en el panel sin el zoom del usuario: la que usa el encuadre. */
+  function baseScreen(n) { return { x: n.x * view.k + view.x, y: n.y * view.k + view.y }; }
+  /** Posición en pantalla con el zoom del usuario aplicado: la que se ve. */
+  function toScreen(n) {
+    return {
+      x: (n.x * view.k + view.x) * zoom.k + zoom.x,
+      y: (n.y * view.k + view.y) * zoom.k + zoom.y
+    };
+  }
+  function toWorld(px, py) {
+    var bx = (px - zoom.x) / zoom.k, by = (py - zoom.y) / zoom.k;
+    return { x: (bx - view.x) / view.k, y: (by - view.y) / view.k };
+  }
+  /**
+   * Escala de los radios en pantalla. Crece con la raíz del zoom, no con el
+   * zoom entero: al acercarse los nodos se separan más de lo que engordan,
+   * que es justamente lo que hace falta para encontrarlos con el dedo.
+   */
+  function escalaR() { return view.k * Math.sqrt(zoom.k); }
+
+  /** Acerca o aleja manteniendo fijo el punto (fx, fy) del panel. */
+  function zoomEn(k, fx, fy) {
+    k = Math.max(1, Math.min(ZOOM_MAX, k));
+    var bx = (fx - zoom.x) / zoom.k, by = (fy - zoom.y) / zoom.k;
+    zoom.k = k;
+    zoom.x = fx - bx * k;
+    zoom.y = fy - by * k;
+    limitarZoom();
+  }
+
+  /** El desplazamiento no deja ver fuera del panel: con zoom 1 todo vuelve a su lugar. */
+  function limitarZoom() {
+    zoom.x = Math.min(0, Math.max(W - W * zoom.k, zoom.x));
+    zoom.y = Math.min(0, Math.max(H - H * zoom.k, zoom.y));
+    // Con zoom, un dedo sobre el fondo mueve el mapa; sin zoom, desplaza la página.
+    canvas.style.touchAction = zoom.k > 1.01 ? 'none' : 'pan-y';
+    if (zoomReset) zoomReset.disabled = zoom.k <= 1.01;
+  }
   function isNeighbor(id) { return hovered && adjacency[hovered.id] && adjacency[hovered.id][id]; }
 
   /** El color de la línea es el de aquello que se comparte. */
@@ -862,7 +907,7 @@
       var edad = Math.min(1, (now - n.born) / NACE_MS);
       var ease = 1 - Math.pow(1 - edad, 3);
       var pulso = n.group === 'core' ? 1 + Math.sin(now / 1000) * 0.05 : 1;
-      var r = Math.max(n.r * view.k * ease * pulso, ease > 0.9 ? 2.4 : 0);
+      var r = Math.max(n.r * escalaR() * ease * pulso, ease > 0.9 ? 2.4 : 0);
       if (r <= 0.2) continue;
       if (p.x < -60 || p.y < -60 || p.x > W + 60 || p.y > H + 60) continue;
 
@@ -881,7 +926,7 @@
       // página) se lo marca con un estallido tipo estrella — un resplandor
       // que se retrae y ocho puntas que se achican hacia el nodo, mientras
       // el cuerpo (arriba, `ease`) crece de 0 al tamaño final.
-      if (edad < 1) drawEstallido(p, n, n.r * view.k, edad, dim * entrada);
+      if (edad < 1) drawEstallido(p, n, n.r * escalaR(), edad, dim * entrada);
 
       if (n === hovered) {
         ctx.beginPath();
@@ -897,8 +942,10 @@
         lote.c.push(p.x, p.y, r);
       }
 
+      // Centro, áreas y comunidades siempre llevan nombre: en el teléfono no
+      // hay hover para descubrirlos. Los inscritos se leen al acercarse.
       var mostrar = n === hovered || !!relacion[n.id] || isNeighbor(n.id) ||
-        (compacto ? n.group === 'core' : n.group !== 'persona');
+        n.group !== 'persona' || zoom.k >= 2.2;
       if (mostrar && ease > 0.55) conEtiqueta.push([n, p, r, enfoque, ease]);
     }
 
@@ -969,6 +1016,7 @@
     }
 
     fitView();
+    limitarZoom();
   }
 
   function localPos(e) {
@@ -989,7 +1037,7 @@
       var p = toScreen(n);
       var dx = p.x - px, dy = p.y - py;
       var d = Math.sqrt(dx * dx + dy * dy);
-      var rPx = n.r * view.k;
+      var rPx = n.r * escalaR();
       var hit = Math.max(rPx + 16, 24) + (n === hovered ? 10 : 0);
       if (d < hit && d - rPx < bestD) { bestD = d - rPx; best = n; }
     }
@@ -1031,28 +1079,116 @@
     canvas.style.cursor = hovered ? 'grab' : 'default';
   });
 
-  canvas.addEventListener('touchstart', function (e) {
-    var p = localPos(e);
-    pointer.x = p.x; pointer.y = p.y; pointer.inside = true;
-    var hit = nodeAt(p.x, p.y);
-    if (hit) { dragging = hit; hovered = hit; calcularRelacion(); toggleTooltip(hit); }
-  }, { passive: true });
+  // Táctil: un dedo sobre un nodo lo arrastra; un toque lo deja
+  // seleccionado (el celular no tiene hover); dos dedos acercan y mueven el
+  // mapa; con zoom, un dedo sobre el fondo lo desplaza.
+  var pinch = null, paneo = null, toque = null;
 
-  canvas.addEventListener('touchmove', function (e) {
-    var p = localPos(e);
-    pointer.x = p.x; pointer.y = p.y; pointer.inside = true;
-    if (dragging) {
+  function distancia(t) {
+    var dx = t[0].clientX - t[1].clientX, dy = t[0].clientY - t[1].clientY;
+    return Math.sqrt(dx * dx + dy * dy) || 1;
+  }
+  function puntoMedio(t) {
+    var rect = canvas.getBoundingClientRect();
+    return {
+      x: (t[0].clientX + t[1].clientX) / 2 - rect.left,
+      y: (t[0].clientY + t[1].clientY) / 2 - rect.top
+    };
+  }
+
+  function seleccionar(n) {
+    if (n === hovered) return;
+    hovered = n;
+    calcularRelacion();
+    toggleTooltip(n);
+  }
+
+  canvas.addEventListener('touchstart', function (e) {
+    if (e.touches.length >= 2) {
+      // Empieza un pellizco: se suelta lo que se estuviera arrastrando.
       e.preventDefault();
-      var w = toWorld(p.x, p.y);
-      dragging.x = w.x; dragging.y = w.y;
+      dragging = null; paneo = null; toque = null; pointer.inside = false;
+      var m = puntoMedio(e.touches);
+      pinch = { d: distancia(e.touches), k: zoom.k, bx: (m.x - zoom.x) / zoom.k, by: (m.y - zoom.y) / zoom.k };
+      return;
+    }
+
+    var p = localPos(e);
+    var hit = nodeAt(p.x, p.y);
+    toque = { x: p.x, y: p.y, nodo: hit };
+    if (hit) {
+      pointer.x = p.x; pointer.y = p.y; pointer.inside = true;
+      dragging = hit;
+      seleccionar(hit);
+    } else if (zoom.k > 1.01) {
+      paneo = { x: p.x, y: p.y, zx: zoom.x, zy: zoom.y };
     }
   }, { passive: false });
 
-  canvas.addEventListener('touchend', function () {
-    dragging = null; pointer.inside = false; hovered = null;
-    calcularRelacion();
-    toggleTooltip(null);
+  canvas.addEventListener('touchmove', function (e) {
+    if (pinch && e.touches.length >= 2) {
+      e.preventDefault();
+      var m = puntoMedio(e.touches);
+      zoom.k = Math.max(1, Math.min(ZOOM_MAX, pinch.k * distancia(e.touches) / pinch.d));
+      // El punto del mapa que estaba entre los dedos sigue entre los dedos.
+      zoom.x = m.x - pinch.bx * zoom.k;
+      zoom.y = m.y - pinch.by * zoom.k;
+      limitarZoom();
+      return;
+    }
+
+    var p = localPos(e);
+    if (toque && Math.abs(p.x - toque.x) + Math.abs(p.y - toque.y) > 8) toque = null;
+
+    if (dragging) {
+      e.preventDefault();
+      pointer.x = p.x; pointer.y = p.y;
+      var w = toWorld(p.x, p.y);
+      dragging.x = w.x; dragging.y = w.y;
+    } else if (paneo) {
+      e.preventDefault();
+      zoom.x = paneo.zx + (p.x - paneo.x);
+      zoom.y = paneo.zy + (p.y - paneo.y);
+      limitarZoom();
+    }
+  }, { passive: false });
+
+  canvas.addEventListener('touchend', function (e) {
+    if (e.touches.length) {
+      // Queda un dedo tras el pellizco: no se convierte en arrastre.
+      if (pinch) { pinch = null; toque = null; }
+      return;
+    }
+    if (dragging) alpha = Math.max(alpha, 0.3);
+    // Un toque en el fondo, sin arrastrar, deselecciona.
+    if (toque && !toque.nodo) seleccionar(null);
+    dragging = null; paneo = null; pinch = null; toque = null;
+    pointer.inside = false;
   });
+
+  canvas.addEventListener('touchcancel', function () {
+    dragging = null; paneo = null; pinch = null; toque = null;
+    pointer.inside = false;
+  });
+
+  // Escritorio: el pellizco del trackpad (y ctrl+rueda) acerca el mapa. La
+  // rueda sola sigue desplazando la página.
+  canvas.addEventListener('wheel', function (e) {
+    if (!e.ctrlKey) return;
+    e.preventDefault();
+    var p = localPos(e);
+    zoomEn(zoom.k * Math.exp(-e.deltaY * 0.01), p.x, p.y);
+  }, { passive: false });
+
+  // Botones + / − / encuadrar
+  var zoomReset = document.getElementById('graph-zoom-reset');
+  function botonZoom(id, fn) {
+    var b = document.getElementById(id);
+    if (b) b.addEventListener('click', fn);
+  }
+  botonZoom('graph-zoom-in', function () { zoomEn(zoom.k * 1.6, W / 2, H / 2); });
+  botonZoom('graph-zoom-out', function () { zoomEn(zoom.k / 1.6, W / 2, H / 2); });
+  botonZoom('graph-zoom-reset', function () { zoomEn(1, W / 2, H / 2); });
 
   window.addEventListener('resize', function () {
     clearTimeout(resize._t);
@@ -1088,7 +1224,7 @@
     if (!tip) return;
     var s = toScreen(n);
     tip.style.left = Math.max(80, Math.min(W - 80, s.x)) + 'px';
-    tip.style.top = (s.y - n.r * view.k - 12) + 'px';
+    tip.style.top = (s.y - n.r * escalaR() - 12) + 'px';
   }
 
   // ---------- Datos ------------------------------------------
