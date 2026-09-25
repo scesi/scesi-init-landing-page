@@ -554,11 +554,12 @@
   var EVENTO_FECHA = "Lunes 28 de septiembre";
 
   // 2) Origen de los inscritos: la hoja de respuestas del Form, leída como CSV.
-  //    `tq=select B,C,D,E,F` deja fuera la marca temporal y cualquier columna
-  //    que se agregue después: sólo sale lo que el mapa necesita.
+  //    `tq=select B,C,D,E,I` deja fuera la marca temporal, correos y celular:
+  //    sólo sale lo que el mapa necesita. Si se agrega un campo al Form, revisar
+  //    que la letra de "Comunidad" (hoy I) siga siendo la correcta.
   //    La hoja tiene que estar compartida como "cualquiera con el enlace: lector".
   window.SCESI_GRAPH_DATA_URL =
-    "https://docs.google.com/spreadsheets/d/1QTV6ayjy93dGsoFsmbHc_7SS01jg4CzwR-IygNyXwqo/gviz/tq?tqx=out:csv&tq=select%20B,C,D,E,H";
+    "https://docs.google.com/spreadsheets/d/1QTV6ayjy93dGsoFsmbHc_7SS01jg4CzwR-IygNyXwqo/gviz/tq?tqx=out:csv&tq=select%20B,C,D,E,I";
 
   // 3) Formulario: URL de inserción del Google Form
   //    (Form → Enviar → <> → copiar el src del iframe).
