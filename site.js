@@ -7,6 +7,14 @@
 (function () {
   'use strict';
 
+  // ---------- Recarga siempre arriba ----------
+  // El navegador recuerda la posición de scroll y la restaura al recargar.
+  // La desactivamos para que cada recarga empiece en el inicio.
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  if (location.hash) history.replaceState(null, '', location.pathname + location.search);
+  window.scrollTo(0, 0);
+  window.addEventListener('pageshow', function () { window.scrollTo(0, 0); });
+
   // ---------- Fecha ----------
   if (EVENTO_FECHA) {
     Array.prototype.forEach.call(document.querySelectorAll('[data-evento-fecha]'), function (el) {
