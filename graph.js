@@ -19,11 +19,11 @@
 
   /**
    * Cuántos inscritos tiene sentido dibujar en el panel disponible.
-   * En un teléfono, 300 nodos son una nube ilegible: se muestran los últimos
-   * y el resto queda fuera hasta que haya más espacio.
+   * En el panel angosto se dibujan todos (hasta el techo): la nube queda
+   * densa, pero el zoom táctil deja acercarse a leerla.
    */
   function topeVisible() {
-    if (!W || !H) return MAX_PEOPLE;
+    if (!W || !H || compacto) return MAX_PEOPLE;
     return Math.max(28, Math.min(MAX_PEOPLE, Math.round(W * H / 2400)));
   }
 
@@ -228,7 +228,7 @@
     // en el dibujo, recortarlas junto con la gente dejaría comunidades sin
     // nodo solo porque quien la declaró no está entre los últimos N visibles.
     var todosLosRegistros = records;
-    if (records.length > topeUsado) records = records.slice(-topeUsado);
+    if (records.length > topeUsado) records = recortar(records, topeUsado);
 
     var prev = byId;
     var nextNodes = [], rawLinks = [], map = Object.create(null);
@@ -398,6 +398,22 @@
     // Se encuadra de entrada, no recién cuando la simulación se calma.
     if (!vistaLista) { fitView(); vistaLista = true; }
     fitPending = true;
+  }
+
+  /**
+   * Elige a quién dibujar cuando no entran todos. Quien declaró comunidad
+   * siempre queda: son pocos y, si se recortaran, al tocar la comunidad no se
+   * iluminaría nadie. El resto del cupo va para los inscritos más recientes.
+   * Se respeta el orden de la hoja.
+   */
+  function recortar(records, tope) {
+    var conComunidad = records.filter(function (r) { return r.comunidad; }).length;
+    var cupo = Math.max(0, tope - conComunidad);
+    var sinComunidadVistos = records.length - conComunidad;
+    return records.filter(function (r) {
+      if (r.comunidad) return true;
+      return sinComunidadVistos-- <= cupo;
+    });
   }
 
   /** "3-4 semestre" → 2, "7mo semestre o mas" → 4. Define el tamaño del nodo. */
@@ -735,7 +751,9 @@
     }
 
     if (hovered.group === 'persona') {
-      marcar(porCarrera[hovered.kCarrera], 'carrera');
+      // En el teléfono, con todos los inscritos en pantalla, la carrera
+      // ilumina a medio mapa: sólo se marca lo que la persona eligió.
+      if (!compacto) marcar(porCarrera[hovered.kCarrera], 'carrera');
       if (hovered.kArea) marcar(porArea[hovered.kArea], 'area');
       if (hovered.kComunidad) marcar(porComunidad[hovered.kComunidad], 'comunidad');
     } else if (hovered.group === 'tema') {
