@@ -255,6 +255,8 @@
     irA(destino);
   });
 
+  var correccionPendiente = null;
+
   function irA(destino) {
     var brusco = window.matchMedia &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -263,19 +265,30 @@
 
     // Red de seguridad: si algo cambió de alto durante el recorrido (una
     // imagen, un iframe), el destino se corrió. Al terminar se reajusta.
+    // Solo para el último clic: con varios seguidos, la corrección de uno
+    // anterior arrastraría la página de vuelta a su sección.
+    if (correccionPendiente) correccionPendiente();
+    correccionPendiente = null;
+
     if (destino !== document.body) {
-      var intentos = 0;
+      var intentos = 0, temporizador;
+      var cancelar = function () {
+        clearTimeout(temporizador);
+        window.removeEventListener('scrollend', corregir);
+      };
       var corregir = function () {
+        if (correccionPendiente !== cancelar) return;
         var desvio = destino.getBoundingClientRect().top -
           parseFloat(getComputedStyle(destino).scrollMarginTop || 0);
         if (Math.abs(desvio) > 6 && intentos++ < 2) {
           destino.scrollIntoView({ behavior: 'auto', block: 'start' });
         }
       };
+      correccionPendiente = cancelar;
       if ('onscrollend' in window) {
         window.addEventListener('scrollend', corregir, { once: true });
       }
-      setTimeout(corregir, 1400);
+      temporizador = setTimeout(corregir, 1400);
     }
 
     // El foco acompaña al scroll: sin esto, el teclado y los lectores de
