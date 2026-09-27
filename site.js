@@ -421,30 +421,58 @@
 
   if (secciones.length && 'IntersectionObserver' in window) {
     var activas = Object.create(null);
+    // Mientras dura el scroll de un clic, el resaltado queda en el destino:
+    // si no, va saltando por cada sección que se cruza en el camino.
+    var destinoClic = null, finClic = null;
 
     var observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         activas[entry.target.id] = entry.isIntersecting ? entry.intersectionRatio : 0;
       });
+      if (!destinoClic) recalcular();
+    }, { threshold: [0.15, 0.4, 0.7], rootMargin: '-80px 0px -40% 0px' });
 
+    secciones.forEach(function (sec) { observer.observe(sec); });
+
+    document.addEventListener('click', function (e) {
+      var enlace = e.target.closest ? e.target.closest('a[href^="#"]') : null;
+      var id = enlace && enlace.getAttribute('href').slice(1);
+      if (!id || !secciones.some(function (s) { return s.id === id; })) return;
+
+      destinoClic = id;
+      marcar(id);
+
+      clearTimeout(finClic);
+      var soltar = function () {
+        clearTimeout(finClic);
+        window.removeEventListener('scrollend', soltar);
+        destinoClic = null;
+        recalcular();
+      };
+      // Sin scrollend (o si no hubo scroll), el temporizador lo libera igual.
+      window.addEventListener('scrollend', soltar);
+      finClic = setTimeout(soltar, 1600);
+    });
+
+    function recalcular() {
       var mejorId = null, mejor = 0;
       Object.keys(activas).forEach(function (id) {
         if (activas[id] > mejor) { mejor = activas[id]; mejorId = id; }
       });
-      if (!mejorId) return;
+      if (mejorId) marcar(mejorId);
+    }
+  }
 
-      enlaces.forEach(function (a) {
-        var activo = a.getAttribute('href') === '#' + mejorId;
-        a.classList.toggle('bg-surface-container-high', activo && !a.classList.contains('menu-link'));
-        a.classList.toggle('text-on-surface', activo);
-        // Sin cambiar el grosor de la letra: el enlace cambiaría de ancho y,
-        // como el menú está centrado, todos los demás se correrían.
-        a.classList.toggle('text-on-surface-variant', !activo);
-        if (activo) a.setAttribute('aria-current', 'page');
-        else a.removeAttribute('aria-current');
-      });
-    }, { threshold: [0.15, 0.4, 0.7], rootMargin: '-80px 0px -40% 0px' });
-
-    secciones.forEach(function (sec) { observer.observe(sec); });
+  function marcar(mejorId) {
+    enlaces.forEach(function (a) {
+      var activo = a.getAttribute('href') === '#' + mejorId;
+      a.classList.toggle('bg-surface-container-high', activo && !a.classList.contains('menu-link'));
+      a.classList.toggle('text-on-surface', activo);
+      // Sin cambiar el grosor de la letra: el enlace cambiaría de ancho y,
+      // como el menú está centrado, todos los demás se correrían.
+      a.classList.toggle('text-on-surface-variant', !activo);
+      if (activo) a.setAttribute('aria-current', 'page');
+      else a.removeAttribute('aria-current');
+    });
   }
 })();
