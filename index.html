@@ -59,6 +59,7 @@
       <a class="px-spacing-xs py-spacing-3xs rounded-lg font-body-md text-body-md font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" href="#registro">Registro</a>
       <a class="px-spacing-xs py-spacing-3xs rounded-lg font-body-md text-body-md font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" href="#ejes-tematicos">Cronograma</a>
       <a class="px-spacing-xs py-spacing-3xs rounded-lg font-body-md text-body-md font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" href="#ubicacion">Ubicación</a>
+      <a class="px-spacing-xs py-spacing-3xs rounded-lg font-body-md text-body-md font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" href="#sorteo">Rifa</a>
       <a class="px-spacing-xs py-spacing-3xs rounded-lg font-body-md text-body-md font-medium text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" href="#comunidades">Comunidades</a>
     </nav>
 
@@ -83,6 +84,7 @@
       <a class="menu-link px-spacing-xs py-spacing-xs rounded-lg font-body-lg text-body-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" href="#registro">Registro</a>
       <a class="menu-link px-spacing-xs py-spacing-xs rounded-lg font-body-lg text-body-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" href="#ejes-tematicos">Cronograma</a>
       <a class="menu-link px-spacing-xs py-spacing-xs rounded-lg font-body-lg text-body-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" href="#ubicacion">Ubicación</a>
+      <a class="menu-link px-spacing-xs py-spacing-xs rounded-lg font-body-lg text-body-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" href="#sorteo">Rifa</a>
       <a class="menu-link px-spacing-xs py-spacing-xs rounded-lg font-body-lg text-body-lg text-on-surface-variant hover:text-on-surface hover:bg-surface-container-high transition-colors" href="#comunidades">Comunidades</a>
     </nav>
   </div>
@@ -480,6 +482,36 @@
         <div id="mapa-placeholder" class="w-full flex items-center justify-center" style="height: clamp(300px, 42vh, 460px);">
           <span class="material-symbols-outlined text-[36px] text-on-surface-variant/40">map</span>
         </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== SORTEO ==================== -->
+<section class="relative w-full py-spacing-3xl bg-surface-container-lowest border-t border-[#C4B5FD]/10 overflow-hidden" id="sorteo" data-centrar>
+  <div class="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_20%_25%,rgba(139,92,246,0.08)_0%,transparent_50%),radial-gradient(circle_at_80%_70%,rgba(226,198,45,0.04)_0%,transparent_50%)]"></div>
+  <div class="relative w-full max-w-[1240px] mx-auto px-layout-gutter flex flex-col gap-spacing-xl">
+    <div class="flex flex-col gap-spacing-sm">
+      <span class="self-start px-spacing-sm py-spacing-3xs rounded-full font-label-code-sm text-label-code-sm uppercase tracking-widest font-bold text-tertiary" style="border:1.5px solid currentColor">Rifa solidaria</span>
+      <h2 class="font-headline-lg text-headline-lg font-bold text-on-surface leading-tight">Sorteamos una cuenta Claude Pro</h2>
+    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-3 items-center gap-spacing-2xl">
+      <div class="lg:col-span-2 flex flex-col gap-spacing-sm">
+        <p class="font-headline-lg font-bold text-tertiary-fixed leading-none" style="font-size:clamp(2.5rem,6vw,3.5rem)">10 Bs <span class="font-body-lg text-body-lg text-on-surface-variant" style="font-weight:400">por rifa</span></p>
+        <div class="flex flex-col gap-spacing-3xs max-w-2xl">
+          <h3 class="font-headline-sm text-title-md font-bold text-on-surface">Tu aporte los lleva a la CTF Nacional</h3>
+          <p class="font-body-lg text-body-lg text-on-surface-variant">Lo recaudado financia el viaje del equipo que representará a Ingeniería Informática e Ingeniería de Sistemas de la UMSS en la competencia de la AGETIC. El sorteo es a las 13:30, al cierre del evento.</p>
+        </div>
+      </div>
+      <div class="flex flex-col items-center gap-spacing-md">
+        <svg viewBox="335 555 605 480" role="img" aria-label="Mascota de Claude" style="width:min(100%,280px);height:auto;filter:drop-shadow(0 0 48px rgba(217,119,87,0.35))">
+          <path d="M405 570H870V680H925V800H870V1020H810V910H770V1020H705V910H565V1020H500V910H470V1020H405V800H350V680H405Z" fill="#D97757" stroke="#fff" stroke-width="10"/>
+          <path d="M458 677L518 710L458 743M817 677L757 710L817 743" fill="none" stroke="#141413" stroke-width="18"/>
+        </svg>
+        <a class="inline-flex items-center justify-center gap-spacing-2xs px-spacing-md py-spacing-xs rounded-full bg-primary text-on-primary font-title-md text-body-md font-bold shadow-[inset_0_1px_0_rgba(255,255,255,0.35),0_4px_24px_rgba(208,188,255,0.25)] hover:bg-primary-fixed-dim hover:text-on-primary-fixed transition-all" href="https://forms.gle/SRXNyrJ5e6WvThGr5" target="_blank" rel="noopener noreferrer">
+          <span class="material-symbols-outlined text-[18px]">confirmation_number</span>
+          <span>COMPRAR RIFA</span>
+        </a>
       </div>
     </div>
   </div>

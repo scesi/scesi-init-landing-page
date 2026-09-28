@@ -257,11 +257,27 @@
 
   var correccionPendiente = null;
 
+  // Las secciones con data-centrar quedan al medio del espacio bajo el header
+  // si entran enteras; si no, arriba como el resto.
+  function desvioDe(destino) {
+    var caja = destino.getBoundingClientRect();
+    var margen = parseFloat(getComputedStyle(destino).scrollMarginTop || 0);
+    var libre = window.innerHeight - margen;
+    if (destino.hasAttribute('data-centrar') && caja.height < libre) {
+      return caja.top - margen - (libre - caja.height) / 2;
+    }
+    return caja.top - margen;
+  }
+
   function irA(destino) {
     var brusco = window.matchMedia &&
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    destino.scrollIntoView({ behavior: brusco ? 'auto' : 'smooth', block: 'start' });
+    if (destino === document.body) {
+      destino.scrollIntoView({ behavior: brusco ? 'auto' : 'smooth', block: 'start' });
+    } else {
+      window.scrollBy({ top: desvioDe(destino), behavior: brusco ? 'auto' : 'smooth' });
+    }
 
     // Red de seguridad: si algo cambió de alto durante el recorrido (una
     // imagen, un iframe), el destino se corrió. Al terminar se reajusta.
@@ -278,10 +294,9 @@
       };
       var corregir = function () {
         if (correccionPendiente !== cancelar) return;
-        var desvio = destino.getBoundingClientRect().top -
-          parseFloat(getComputedStyle(destino).scrollMarginTop || 0);
+        var desvio = desvioDe(destino);
         if (Math.abs(desvio) > 6 && intentos++ < 2) {
-          destino.scrollIntoView({ behavior: 'auto', block: 'start' });
+          window.scrollBy({ top: desvio, behavior: 'auto' });
         }
       };
       correccionPendiente = cancelar;
